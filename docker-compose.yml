@@ -11,3 +11,40 @@ services:
       - DATA_DIR=/tmp/localstack/data
     ports:
       - '4566:4566'
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: mensagem
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - keycloak-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: start-dev
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_DATABASE: mensagem
+      DB_USER: admin
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - keycloak-network
+
+volumes:
+  pgdata:
+
+networks:
+  keycloak-network:

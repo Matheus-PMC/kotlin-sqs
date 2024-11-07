@@ -1,4 +1,4 @@
-package com.kotlin.sqs
+package com.kotlin.sqs.configuration
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Primary
 
 
 @Configuration
-class Configuration(
+class SqsConfiguration(
     @Value("\${cloud.aws.queue.uri}") private var host: String,
     @Value("\${cloud.aws.credentials.access-key}") private var accessKeyId: String,
     @Value("\${cloud.aws.credentials.secret-key}") private var secretAccessKey: String,
