@@ -21,11 +21,13 @@ class WebSecurityConfiguration(private val jwtAuthConfiguration: JwtAuthConfigur
         http
             .csrf {
                 it.ignoringRequestMatchers("/user/login")
+                it.ignoringRequestMatchers("/user/register")
+                it.ignoringRequestMatchers("/user/updated/{id}")
+
             }
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers("/user/**").permitAll()
-//                    .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                     .requestMatchers("/admin/**").hasAnyRole(ADMIN)
                     .requestMatchers("/message/**").hasAnyRole(USER)
                     .anyRequest().authenticated()
